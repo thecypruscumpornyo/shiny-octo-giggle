@@ -22,7 +22,8 @@ async def getchat(events) :
         }
         json_data.update(user_data)
     with open('list.json', 'w', encoding='utf-8') as make_file:
-        json.dump(json_data, make_file, indent="\t")      
+        json.dump(json_data, make_file, indent="\t")
+	make_file.close()
 
 client.start()
 client.run_until_disconnected()
