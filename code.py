@@ -7,23 +7,21 @@ token = '1662624308:AAHKqIAAXohK6B1alvWjrDFzB3RORSP2eXE'
 
 client = TelegramClient(token, api_id, api_hash) 
 
-@client.on(events.NewMessage)
-async def getchat(events) :
-    f = open('list.json', "r")
-    json_data = json.load(f)
-    user = await events.get_sender()
-    try :
-        json_data[str(user.id)] = json_data[str(user.id)] + 1
-    except :
-        user_data = {
-            user.id : {
-                'point' : 1
-            }
-        }
-        json_data.update(user_data)
-    with open('list.json', 'w', encoding='utf-8') as make_file:
-        json.dump(json_data, make_file, indent="\t")
-	make_file.close()
+@client.on(events.NewMessage(pattern=r'\.컽')) 
+async def nopsa(event) :
+    contents = "**킥 먹은 노 프사 명단** \n"
+    async for user in client.iter_participants(event.chat_id):
+        if user.photo == None :
+            name = ""
+            if user.first_name != None : name += f"{user.first_name}"
+            if user.first_name != None : name += f"{user.last_name}"
+            if name == "" :
+                contents += f"[Unknown](tg://user?id={user.id}) `{user.id}` \n"
+            else :
+                contents += f"[{name}](tg://user?id={user.id}) `{user.id}` \n"
+            await client.kick_participant(event.chat_id, user.id)
+    await client.send_message(event.chat_id, contents)
+            
 
 client.start()
 client.run_until_disconnected()
