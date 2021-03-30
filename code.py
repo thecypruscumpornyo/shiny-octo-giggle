@@ -3,7 +3,7 @@ import json
 
 api_id = 3029628
 api_hash = '70620875a64498c57ff95faec660d758'
-token = '1662624308:AAHKqIAAXohK6B1alvWjrDFzB3RORSP2eXE'
+token = '1712942144:AAEC5L-MzB3dkGCJxUTkrJcUzHnMq2x85cA'
 
 client = TelegramClient(token, api_id, api_hash) 
 
