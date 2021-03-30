@@ -7,23 +7,18 @@ token = '1662624308:AAHKqIAAXohK6B1alvWjrDFzB3RORSP2eXE'
 
 client = TelegramClient(token, api_id, api_hash) 
 
-@client.on(events.NewMessage(pattern=r'\.컽')) 
-async def nopsa(event) :
-    contents = "**킥 먹은 노 프사 명단** \n"
-    async for user in client.iter_participants(event.chat_id):
-        if user.photo == None :
-            name = ""
-            if user.first_name != None : name += f"{user.first_name}"
-            if user.first_name != None : name += f"{user.last_name}"
-            if name == "" :
-                contents += f"[Unknown](tg://user?id={user.id}) `{user.id}` \n"
-            else :
-                contents += f"[{name}](tg://user?id={user.id}) `{user.id}` \n"
-            await client.kick_participant(event.chat_id, user.id)
+async def checkroom (userid) :
+    async for user in client.iter_participants(-1001227362971) :
+        if user.id == userid :
+            return 1
+        
+@client.on(events.NewMessage(pattern=r'\/echo'))
+async def checkmychats (event) :
+    point = "\U0001F534"
+    if await checkroom(event.sender_id) == 1 : point = "\U0001F7E2"
+    contents = f"{point} 무덤 가입 여부\n\U0001F7E2 봇 정상 작동 여부"
     await client.send_message(event.chat_id, contents)
-            
-
+	
 client.start()
 client.run_until_disconnected()
-	
 
