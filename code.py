@@ -12,7 +12,7 @@ async def checkroom (userid) :
         if user.id == userid :
             return 1
         
-@client.on(events.NewMessage(pattern=r'\/echo'))
+@client.on(events.NewMessage(pattern=r'\/check'))
 async def checkmychats (event) :
     point = "\U0001F534"
     if await checkroom(event.sender_id) == 1 : point = "\U0001F7E2"
